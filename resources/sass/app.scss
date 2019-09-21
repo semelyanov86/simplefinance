@@ -6,3 +6,108 @@
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
+
+@import '~jquery-ui/themes/base/all.css';
+
+//@import "~@fortawesome/fontawesome-free/scss/fontawesome";
+@import '~@fortawesome/fontawesome-free/scss/brands';
+@import '~@fortawesome/fontawesome-free/scss/regular';
+@import '~@fortawesome/fontawesome-free/scss/solid';
+@import '~@fortawesome/fontawesome-free/scss/fontawesome';
+
+@import "~select2/dist/css/select2.css";
+
+.loginForm {
+    margin: 250px auto;
+    width: 350px;
+}
+.target {
+    opacity: 0.5;
+}
+.target:hover {
+    opacity: 1;
+}
+
+.edit-group {
+    display:none;
+}
+.tag-item:hover .edit-group {
+    display:inline;
+}
+.accountedit {
+    display:none;
+}
+.accountrow:hover .accountedit {
+    display:inline;
+}
+.accountrow:hover .accountsum {
+    display:none;
+}
+.hidden {
+    display: none;
+}
+
+/*Calculator styles*/
+@import url('https://fonts.googleapis.com/css?family=VT323');
+
+#results-window {
+    min-height: 50px;
+    text-align: right;
+    background-color: #aab9a6;
+    border: .3em inset #cfd6dc;
+}
+
+.calc-main {
+    width: 40%;
+    min-width: 275px;
+    margin: 4em auto;
+}
+
+.panel-default {
+    border: .6em outset #242b35;
+    border-radius: 2%;
+}
+
+.panel-body {
+    background-color: #edece7;
+    border: .3em outset #edffe7;
+    padding: 1.5em;
+}
+
+#result {
+    font-family: 'VT323', monospace;
+    font-size: 2em;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: "";
+}
+
+
+.calc-main h1 { margin: .1em; }
+
+.number {
+    background-color: #9a9994;
+    font-size: 1rem;
+    line-height: 1;
+
+}
+
+.operator {
+    background-color: #646263;
+    font-size: 1rem;
+    line-height: 1;
+}
+
+.equal { background-color: #5786a2; }
+
+.clear { color: #cc0404; }
+@media screen and (max-width: 920px) {
+
+    @media screen and (max-width: 414px) {
+
+        .jumbotron {
+            padding: 10px 0;
+            margin-bottom: 0;
+        }
+    }
+}

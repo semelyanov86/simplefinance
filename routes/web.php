@@ -11,10 +11,10 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'HomeController@index')->name('home')->middleware('auth');
+Route::get('/settings', 'SettingsController@index')->name('settings.index')->middleware('auth');
+Route::put('/settings/user/edit', 'UserController@update')->name('settings.user.update')->middleware('auth');
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+//Route::get('/home', 'HomeController@index')->name('home');
