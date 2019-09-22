@@ -12,15 +12,18 @@ import $ from 'jquery';
 window.$ = window.jQuery = $;
 // global.$ = global.jQuery = require('jquery');
 
-import 'jquery-ui/ui/widgets/datepicker.js';
+// import 'jquery-ui/ui/widgets/datepicker.js';
 
 import 'popper.js/dist/popper.js';
 
-import 'select2/dist/js/select2';
+// import 'select2/dist/js/select2';
 import VueToast from 'vue-toast-notification';
 import 'vue-toast-notification/dist/index.css';
+import BootstrapVue from 'bootstrap-vue';
+
 
 Vue.use(VueToast);
+Vue.use(BootstrapVue);
 
 /**
  * The following block of code may be used to automatically register your
@@ -34,6 +37,7 @@ Vue.use(VueToast);
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 Vue.component('profile-component', require('./components/ProfileComponent.vue').default);
+Vue.component('register-user-component', require('./components/RegisterUserComponent.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

@@ -88,7 +88,7 @@
                                 <a class="nav-link" href="#"><i class="fa fa-bar-chart mr-3"></i>Отчёты</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#"><i class="fa fa-cog mr-3"></i>Настройки</a>
+                                <a class="nav-link" href="{{route('settings.index')}}"><i class="fa fa-cog mr-3"></i>Настройки</a>
                             </li>
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>

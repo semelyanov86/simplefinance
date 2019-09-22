@@ -60,45 +60,7 @@
                                 </tbody>
                             </table>
                             <h2>Добавить пользователя</h2>
-                            <div class="row">
-                                <div class="col">
-                                    <form>
-                                        <div class="form-group">
-                                            <label for="login">Логин</label>
-                                            <input type="text" class="form-control" id="login" placeholder="Введите логин пользователя">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="name">Имя</label>
-                                            <input type="text" class="form-control" id="name" placeholder="Введите имя пользователя">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="password">Password</label>
-                                            <input type="password" class="form-control" id="password" placeholder="Придумайте пароль">
-                                        </div>
-                                        <button type="submit" class="btn btn-primary">Добавить</button>
-                                    </form>
-                                </div>
-                                <div class="col">
-                                    <h3>Внимание!</h3>
-                                    <ul>
-                                        <li>
-                                            После добавления пользователя он сможет войти через обычную форму авторизации.
-                                        </li>
-                                        <li>
-                                            При деактивации пользователя вход в систему будет заблокирован.
-                                        </li>
-                                        <li>
-                                            Пользователю доступно удаление только своих счетов и операций.
-                                        </li>
-                                        <li>
-                                            При удалении пользователя счета и операции, созданные им не удаляются из системы.
-                                        </li>
-                                        <li>
-                                            Пользователю недоступен вход в настройки.
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
+                            <register-user-component saveurl="{{ route('register') }}"></register-user-component>
                         </div>
                         <div class="tab-pane fade" id="v-pills-currencies" role="tabpanel" aria-labelledby="v-pills-currencies-tab">
                             <h1>Настройка валют</h1>
