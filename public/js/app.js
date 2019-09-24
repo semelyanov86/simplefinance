@@ -2090,8 +2090,64 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['saveurl'],
+  props: ['saveurl', 'users', 'roles', 'updateurl'],
   data: function data() {
     return {
       login: {
@@ -2118,7 +2174,13 @@ __webpack_require__.r(__webpack_exports__);
         value: '',
         validated: true,
         message: 'There was an error in field'
-      }
+      },
+      role: {
+        value: 'main user',
+        validated: true,
+        message: 'There was an error in field'
+      },
+      allUsers: []
     };
   },
   methods: {
@@ -2128,7 +2190,8 @@ __webpack_require__.r(__webpack_exports__);
         'name': this.name.value,
         'email': this.email.value,
         'password': this.password.value,
-        'password_confirmation': this.passwordConfirmation.value
+        'password_confirmation': this.passwordConfirmation.value,
+        'role': this.role.value
       };
     },
     save: function save() {
@@ -2150,12 +2213,12 @@ __webpack_require__.r(__webpack_exports__);
         }
       }).then(function (_ref2) {
         var data = _ref2.data;
-        console.log(data);
 
         _this.$toast.success(data.message, "Success", {
           timeout: 3000
         });
 
+        thisInstance.allUsers.push(data.user);
         thisInstance.login.value = '';
         thisInstance.login.validated = true;
         thisInstance.email.value = '';
@@ -2166,12 +2229,52 @@ __webpack_require__.r(__webpack_exports__);
         thisInstance.password.validated = true;
         thisInstance.passwordConfirmation.value = '';
       });
+    },
+    updateRole: function updateRole(index, event) {
+      this.allUsers[index].role.id = event.target.value;
+      this.allUsers[index].role.name = event.target.selectedOptions[0].text;
+    },
+    updateUser: function updateUser(index) {
+      var _this2 = this;
+
+      var currentUser = this.allUsers[index];
+
+      if (currentUser.password) {
+        currentUser['password_confirmation'] = currentUser.password;
+      } else {
+        delete currentUser.password;
+      }
+
+      var thisInstance = this;
+      axios.put(this.updatepoint, currentUser)["catch"](function (_ref3) {
+        var response = _ref3.response;
+
+        _this2.$toast.error(response.data.message, "Error", {
+          timeout: 3000
+        });
+      }).then(function (_ref4) {
+        var data = _ref4.data;
+
+        _this2.$toast.success(data.message, "Success", {
+          timeout: 3000
+        });
+      });
     }
   },
   computed: {
     endpoint: function endpoint() {
       return this.saveurl;
+    },
+    updatepoint: function updatepoint() {
+      return this.updateurl;
     }
+  },
+  mounted: function mounted() {
+    var thisInstance = this;
+    this.users.forEach(function (elem) {
+      elem.password = '';
+      thisInstance.allUsers.push(elem);
+    });
   }
 });
 
@@ -69742,265 +69845,526 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "row" }, [
-    _c("div", { staticClass: "col" }, [
+  return _c("div", [
+    _c("h1", [_vm._v("Пользователи")]),
+    _vm._v(" "),
+    _c("table", { staticClass: "table" }, [
+      _vm._m(0),
+      _vm._v(" "),
       _c(
-        "form",
-        {
-          on: {
-            submit: function($event) {
-              $event.preventDefault()
-              return _vm.save($event)
-            }
-          }
-        },
-        [
-          _c("div", { staticClass: "form-group" }, [
-            _c("label", { attrs: { for: "login" } }, [_vm._v("Логин")]),
+        "tbody",
+        _vm._l(_vm.allUsers, function(user, index) {
+          return _c("tr", { key: user.id }, [
+            _c("th", { attrs: { scope: "row" } }, [_vm._v(_vm._s(user.id))]),
             _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.login.value,
-                  expression: "login.value"
-                }
-              ],
-              staticClass: "form-control",
-              class: { "is-invalid": !_vm.login.validated },
-              attrs: {
-                type: "text",
-                id: "login",
-                name: "login",
-                placeholder: "Введите логин пользователя"
-              },
-              domProps: { value: _vm.login.value },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.login, "value", $event.target.value)
-                }
-              }
-            }),
+            _c("td", [_vm._v(_vm._s(user.login))]),
             _vm._v(" "),
-            _c(
-              "span",
-              {
-                directives: [
-                  {
-                    name: "show",
-                    rawName: "v-show",
-                    value: !_vm.login.validated,
-                    expression: "!login.validated"
+            _c("td", [
+              _c("div", { staticClass: "input-group" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: user.name,
+                      expression: "user.name"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { type: "text", "aria-label": "Имя" },
+                  domProps: { value: user.name },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(user, "name", $event.target.value)
+                    }
                   }
-                ],
-                staticClass: "invalid-feedback",
-                attrs: { role: "alert" }
-              },
-              [_c("strong", [_vm._v(_vm._s(_vm.login.message))])]
-            )
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group" }, [
-            _c("label", { attrs: { for: "email" } }, [_vm._v("Email")]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.email.value,
-                  expression: "email.value"
-                }
-              ],
-              staticClass: "form-control",
-              class: { "is-invalid": !_vm.email.validated },
-              attrs: {
-                type: "text",
-                id: "email",
-                name: "email",
-                placeholder: "Введите email пользователя"
-              },
-              domProps: { value: _vm.email.value },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.email, "value", $event.target.value)
-                }
-              }
-            }),
-            _vm._v(" "),
-            _c(
-              "span",
-              {
-                directives: [
-                  {
-                    name: "show",
-                    rawName: "v-show",
-                    value: !_vm.email.validated,
-                    expression: "!email.validated"
-                  }
-                ],
-                staticClass: "invalid-feedback",
-                attrs: { role: "alert" }
-              },
-              [_c("strong", [_vm._v(_vm._s(_vm.email.message))])]
-            )
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group" }, [
-            _c("label", { attrs: { for: "name" } }, [_vm._v("Имя")]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.name.value,
-                  expression: "name.value"
-                }
-              ],
-              staticClass: "form-control",
-              class: { "is-invalid": !_vm.name.validated },
-              attrs: {
-                type: "text",
-                id: "name",
-                name: "name",
-                placeholder: "Введите имя пользователя"
-              },
-              domProps: { value: _vm.name.value },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.name, "value", $event.target.value)
-                }
-              }
-            }),
-            _vm._v(" "),
-            _c(
-              "span",
-              {
-                directives: [
-                  {
-                    name: "show",
-                    rawName: "v-show",
-                    value: !_vm.name.validated,
-                    expression: "!name.validated"
-                  }
-                ],
-                staticClass: "invalid-feedback",
-                attrs: { role: "alert" }
-              },
-              [_c("strong", [_vm._v(_vm._s(_vm.name.message))])]
-            )
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group" }, [
-            _c("label", { attrs: { for: "password" } }, [_vm._v("Password")]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.password.value,
-                  expression: "password.value"
-                }
-              ],
-              staticClass: "form-control",
-              class: { "is-invalid": !_vm.password.validated },
-              attrs: {
-                type: "password",
-                name: "password",
-                id: "password",
-                placeholder: "Придумайте пароль"
-              },
-              domProps: { value: _vm.password.value },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.password, "value", $event.target.value)
-                }
-              }
-            }),
-            _vm._v(" "),
-            _c(
-              "span",
-              {
-                directives: [
-                  {
-                    name: "show",
-                    rawName: "v-show",
-                    value: !_vm.password.validated,
-                    expression: "!password.validated"
-                  }
-                ],
-                staticClass: "invalid-feedback",
-                attrs: { role: "alert" }
-              },
-              [_c("strong", [_vm._v(_vm._s(_vm.password.message))])]
-            )
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group" }, [
-            _c("label", { attrs: { for: "password-confirm" } }, [
-              _vm._v("Confirm Password")
+                })
+              ])
             ]),
             _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.passwordConfirmation.value,
-                  expression: "passwordConfirmation.value"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: {
-                type: "password",
-                name: "password_confirmation",
-                id: "password-confirm",
-                placeholder: "Повторите пароль"
-              },
-              domProps: { value: _vm.passwordConfirmation.value },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
+            _c("td", [
+              _c("div", { staticClass: "input-group" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: user.password,
+                      expression: "user.password"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: {
+                    type: "password",
+                    "aria-label": "Password",
+                    placeholder: "Введите для изменения"
+                  },
+                  domProps: { value: user.password },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(user, "password", $event.target.value)
+                    }
                   }
-                  _vm.$set(
-                    _vm.passwordConfirmation,
-                    "value",
-                    $event.target.value
-                  )
+                })
+              ])
+            ]),
+            _vm._v(" "),
+            _c("td", { staticClass: "text-center align-items-center" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: user["is_active"],
+                    expression: "user['is_active']"
+                  }
+                ],
+                staticClass: "form-check-input",
+                attrs: { type: "checkbox", id: "exampleCheck1" },
+                domProps: {
+                  checked: Array.isArray(user["is_active"])
+                    ? _vm._i(user["is_active"], null) > -1
+                    : user["is_active"]
+                },
+                on: {
+                  change: function($event) {
+                    var $$a = user["is_active"],
+                      $$el = $event.target,
+                      $$c = $$el.checked ? true : false
+                    if (Array.isArray($$a)) {
+                      var $$v = null,
+                        $$i = _vm._i($$a, $$v)
+                      if ($$el.checked) {
+                        $$i < 0 &&
+                          _vm.$set(user, "is_active", $$a.concat([$$v]))
+                      } else {
+                        $$i > -1 &&
+                          _vm.$set(
+                            user,
+                            "is_active",
+                            $$a.slice(0, $$i).concat($$a.slice($$i + 1))
+                          )
+                      }
+                    } else {
+                      _vm.$set(user, "is_active", $$c)
+                    }
+                  }
                 }
-              }
-            })
-          ]),
-          _vm._v(" "),
-          _c(
-            "button",
-            { staticClass: "btn btn-primary", attrs: { type: "submit" } },
-            [_vm._v("Добавить")]
-          )
-        ]
+              })
+            ]),
+            _vm._v(" "),
+            _c("td", [
+              _c(
+                "select",
+                {
+                  staticClass: "form-control",
+                  attrs: { id: "role" },
+                  domProps: { value: user.role.id },
+                  on: {
+                    change: function($event) {
+                      return _vm.updateRole(index, $event)
+                    }
+                  }
+                },
+                _vm._l(_vm.roles, function(role, index) {
+                  return _c(
+                    "option",
+                    { key: role.id, domProps: { value: role.id } },
+                    [_vm._v(_vm._s(role.name))]
+                  )
+                }),
+                0
+              )
+            ]),
+            _vm._v(" "),
+            _c("td", [
+              _c("div", { staticClass: "input-group" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: user.email,
+                      expression: "user.email"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { type: "email" },
+                  domProps: { value: user.email },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(user, "email", $event.target.value)
+                    }
+                  }
+                })
+              ])
+            ]),
+            _vm._v(" "),
+            _c("td", [
+              _c(
+                "a",
+                {
+                  attrs: { href: "#" },
+                  on: {
+                    click: function($event) {
+                      return _vm.updateUser(index)
+                    }
+                  }
+                },
+                [_c("i", { staticClass: "fa fa-lg fa-save" })]
+              ),
+              _c("i", { staticClass: "fa fa-lg fa-trash ml-2" })
+            ])
+          ])
+        }),
+        0
       )
     ]),
     _vm._v(" "),
-    _vm._m(0)
+    _c("h2", [_vm._v("Добавить пользователя")]),
+    _vm._v(" "),
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col" }, [
+        _c(
+          "form",
+          {
+            on: {
+              submit: function($event) {
+                $event.preventDefault()
+                return _vm.save($event)
+              }
+            }
+          },
+          [
+            _c("div", { staticClass: "form-group" }, [
+              _c("label", { attrs: { for: "login" } }, [_vm._v("Логин")]),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.login.value,
+                    expression: "login.value"
+                  }
+                ],
+                staticClass: "form-control",
+                class: { "is-invalid": !_vm.login.validated },
+                attrs: {
+                  type: "text",
+                  id: "login",
+                  name: "login",
+                  placeholder: "Введите логин пользователя"
+                },
+                domProps: { value: _vm.login.value },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.login, "value", $event.target.value)
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _c(
+                "span",
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: !_vm.login.validated,
+                      expression: "!login.validated"
+                    }
+                  ],
+                  staticClass: "invalid-feedback",
+                  attrs: { role: "alert" }
+                },
+                [_c("strong", [_vm._v(_vm._s(_vm.login.message))])]
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-group" }, [
+              _c("label", { attrs: { for: "email" } }, [_vm._v("Email")]),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.email.value,
+                    expression: "email.value"
+                  }
+                ],
+                staticClass: "form-control",
+                class: { "is-invalid": !_vm.email.validated },
+                attrs: {
+                  type: "text",
+                  id: "email",
+                  name: "email",
+                  placeholder: "Введите email пользователя"
+                },
+                domProps: { value: _vm.email.value },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.email, "value", $event.target.value)
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _c(
+                "span",
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: !_vm.email.validated,
+                      expression: "!email.validated"
+                    }
+                  ],
+                  staticClass: "invalid-feedback",
+                  attrs: { role: "alert" }
+                },
+                [_c("strong", [_vm._v(_vm._s(_vm.email.message))])]
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-group" }, [
+              _c("label", { attrs: { for: "name" } }, [_vm._v("Имя")]),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.name.value,
+                    expression: "name.value"
+                  }
+                ],
+                staticClass: "form-control",
+                class: { "is-invalid": !_vm.name.validated },
+                attrs: {
+                  type: "text",
+                  id: "name",
+                  name: "name",
+                  placeholder: "Введите имя пользователя"
+                },
+                domProps: { value: _vm.name.value },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.name, "value", $event.target.value)
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _c(
+                "span",
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: !_vm.name.validated,
+                      expression: "!name.validated"
+                    }
+                  ],
+                  staticClass: "invalid-feedback",
+                  attrs: { role: "alert" }
+                },
+                [_c("strong", [_vm._v(_vm._s(_vm.name.message))])]
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-group" }, [
+              _c("label", { attrs: { for: "password" } }, [_vm._v("Password")]),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.password.value,
+                    expression: "password.value"
+                  }
+                ],
+                staticClass: "form-control",
+                class: { "is-invalid": !_vm.password.validated },
+                attrs: {
+                  type: "password",
+                  name: "password",
+                  id: "password",
+                  placeholder: "Придумайте пароль"
+                },
+                domProps: { value: _vm.password.value },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.password, "value", $event.target.value)
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _c(
+                "span",
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: !_vm.password.validated,
+                      expression: "!password.validated"
+                    }
+                  ],
+                  staticClass: "invalid-feedback",
+                  attrs: { role: "alert" }
+                },
+                [_c("strong", [_vm._v(_vm._s(_vm.password.message))])]
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-group" }, [
+              _c("label", { attrs: { for: "password-confirm" } }, [
+                _vm._v("Confirm Password")
+              ]),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.passwordConfirmation.value,
+                    expression: "passwordConfirmation.value"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: {
+                  type: "password",
+                  name: "password_confirmation",
+                  id: "password-confirm",
+                  placeholder: "Повторите пароль"
+                },
+                domProps: { value: _vm.passwordConfirmation.value },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(
+                      _vm.passwordConfirmation,
+                      "value",
+                      $event.target.value
+                    )
+                  }
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-group" }, [
+              _c("label", { attrs: { for: "choose-role" } }, [
+                _vm._v("Choose Role")
+              ]),
+              _vm._v(" "),
+              _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.role.value,
+                      expression: "role.value"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { id: "choose-role" },
+                  on: {
+                    change: function($event) {
+                      var $$selectedVal = Array.prototype.filter
+                        .call($event.target.options, function(o) {
+                          return o.selected
+                        })
+                        .map(function(o) {
+                          var val = "_value" in o ? o._value : o.value
+                          return val
+                        })
+                      _vm.$set(
+                        _vm.role,
+                        "value",
+                        $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      )
+                    }
+                  }
+                },
+                _vm._l(_vm.roles, function(role, index) {
+                  return _c(
+                    "option",
+                    { key: role.id, domProps: { value: role.name } },
+                    [_vm._v(_vm._s(role.name))]
+                  )
+                }),
+                0
+              )
+            ]),
+            _vm._v(" "),
+            _c(
+              "button",
+              { staticClass: "btn btn-primary", attrs: { type: "submit" } },
+              [_vm._v("Добавить")]
+            )
+          ]
+        )
+      ]),
+      _vm._v(" "),
+      _vm._m(1)
+    ])
   ])
 }
 var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("#")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Логин")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Имя")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Пароль")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Активен")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Роль")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Email")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Действия")])
+      ])
+    ])
+  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -82355,16 +82719,16 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default()('.collapse').collapse();
 jquery__WEBPACK_IMPORTED_MODULE_0___default()(function () {
   jquery__WEBPACK_IMPORTED_MODULE_0___default()('[data-toggle="tooltip"]').tooltip();
 });
-jquery__WEBPACK_IMPORTED_MODULE_0___default()("#calendar").datepicker();
-var datepicker = jquery__WEBPACK_IMPORTED_MODULE_0___default()('.ui-datepicker');
+/*$("#calendar").datepicker();
+var datepicker = $('.ui-datepicker');
 datepicker.hide();
-jquery__WEBPACK_IMPORTED_MODULE_0___default()('#collapseRightFour').on('hidden.bs.collapse', function () {
-  datepicker.hide();
+$('#collapseRightFour').on('hidden.bs.collapse', function () {
+    datepicker.hide();
 });
-jquery__WEBPACK_IMPORTED_MODULE_0___default()('#collapseRightFour').on('shown.bs.collapse', function () {
-  datepicker.show();
+$('#collapseRightFour').on('shown.bs.collapse', function () {
+    datepicker.show();
 });
-jquery__WEBPACK_IMPORTED_MODULE_0___default()('.select2').select2();
+$('.select2').select2();*/
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js"), __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
 
 /***/ }),

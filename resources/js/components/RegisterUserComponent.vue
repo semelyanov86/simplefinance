@@ -1,4 +1,53 @@
 <template>
+    <div>
+    <h1>Пользователи</h1>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Логин</th>
+            <th scope="col">Имя</th>
+            <th scope="col">Пароль</th>
+            <th scope="col">Активен</th>
+            <th scope="col">Роль</th>
+            <th scope="col">Email</th>
+            <th scope="col">Действия</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-for="(user, index) in allUsers" v-bind:key="user.id">
+            <th scope="row">{{user.id}}</th>
+            <td>{{user.login}}</td>
+            <td>
+                <div class="input-group">
+                    <input type="text" aria-label="Имя" class="form-control" v-model="user.name">
+                </div>
+            </td>
+            <td>
+                <div class="input-group">
+                    <input type="password" aria-label="Password" class="form-control" placeholder="Введите для изменения" v-model="user.password">
+                </div>
+            </td>
+            <td class="text-center align-items-center">
+                <!-- <div class="input-group"> -->
+                <input type="checkbox" class="form-check-input" id="exampleCheck1" v-model="user['is_active']">
+                <!-- </div> -->
+            </td>
+            <td>
+                <select id="role" class="form-control" :value="user.role.id" v-on:change="updateRole(index, $event)">
+                <option v-for="(role, index) in roles" v-bind:key="role.id" v-bind:value="role.id">{{role.name}}</option>
+            </select>
+            </td>
+            <td>
+                <div class="input-group">
+                    <input type="email" class="form-control" v-model="user.email">
+                </div>
+            </td>
+            <td><a href="#" v-on:click="updateUser(index)"><i class="fa fa-lg fa-save"></i></a><i class="fa fa-lg fa-trash ml-2"></i></td>
+        </tr>
+        </tbody>
+    </table>
+    <h2>Добавить пользователя</h2>
     <div class="row">
         <div class="col">
             <form @submit.prevent="save">
@@ -34,6 +83,12 @@
                     <label for="password-confirm">Confirm Password</label>
                     <input type="password" class="form-control" name="password_confirmation" v-model="passwordConfirmation.value" id="password-confirm" placeholder="Повторите пароль">
                 </div>
+                <div class="form-group">
+                    <label for="choose-role">Choose Role</label>
+                    <select id="choose-role" class="form-control" v-model="role.value">
+                        <option v-for="(role, index) in roles" v-bind:key="role.id" v-bind:value="role.name">{{role.name}}</option>
+                    </select>
+                </div>
                 <button type="submit" class="btn btn-primary">Добавить</button>
             </form>
         </div>
@@ -58,11 +113,12 @@
             </ul>
         </div>
     </div>
+    </div>
 </template>
 
 <script>
     export default {
-        props: ['saveurl'],
+        props: ['saveurl', 'users', 'roles', 'updateurl'],
 
         data() {
           return {
@@ -91,6 +147,12 @@
                   validated: true,
                   message: 'There was an error in field'
               },
+              role: {
+                value: 'main user',
+                validated: true,
+                message: 'There was an error in field'
+              },
+              allUsers: []
           }
         },
 
@@ -101,7 +163,8 @@
                   'name' : this.name.value,
                   'email' : this.email.value,
                   'password' : this.password.value,
-                  'password_confirmation' : this.passwordConfirmation.value
+                  'password_confirmation' : this.passwordConfirmation.value,
+                  'role' : this.role.value
               }
           },
             save() {
@@ -117,8 +180,8 @@
                         }
                     })
                     .then(({data}) => {
-                        console.log(data);
                         this.$toast.success(data.message, "Success", { timeout: 3000 });
+                        thisInstance.allUsers.push(data.user);
                         thisInstance.login.value = '';
                         thisInstance.login.validated = true;
                         thisInstance.email.value = '';
@@ -129,13 +192,44 @@
                         thisInstance.password.validated = true;
                         thisInstance.passwordConfirmation.value = '';
                     });
+            },
+            updateRole(index, event) {
+              this.allUsers[index].role.id = event.target.value;
+              this.allUsers[index].role.name = event.target.selectedOptions[0].text;
+            },
+            updateUser(index) {
+              let currentUser = this.allUsers[index];
+              if (currentUser.password) {
+                  currentUser['password_confirmation'] = currentUser.password;
+              } else {
+                  delete currentUser.password;
+              }
+                var thisInstance = this;
+                axios.put(this.updatepoint, currentUser)
+                    .catch(({response}) => {
+                        this.$toast.error(response.data.message, "Error", { timeout: 3000 });
+                    })
+                    .then(({data}) => {
+                        this.$toast.success(data.message, "Success", { timeout: 3000 });
+                    });
+
             }
         },
 
         computed: {
             endpoint() {
                 return this.saveurl;
+            },
+            updatepoint() {
+                return this.updateurl;
             }
+        },
+        mounted: function () {
+            var thisInstance = this;
+            this.users.forEach(function (elem) {
+                elem.password = '';
+                thisInstance.allUsers.push(elem);
+            });
         }
     }
 </script>

@@ -134,7 +134,7 @@ $('.collapse').collapse();
 $(function () {
     $('[data-toggle="tooltip"]').tooltip()
 });
-$("#calendar").datepicker();
+/*$("#calendar").datepicker();
 var datepicker = $('.ui-datepicker');
 datepicker.hide();
 $('#collapseRightFour').on('hidden.bs.collapse', function () {
@@ -143,4 +143,4 @@ $('#collapseRightFour').on('hidden.bs.collapse', function () {
 $('#collapseRightFour').on('shown.bs.collapse', function () {
     datepicker.show();
 });
-$('.select2').select2();
+$('.select2').select2();*/

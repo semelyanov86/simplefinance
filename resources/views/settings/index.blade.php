@@ -20,47 +20,7 @@
                             <profile-component :user="{{$user}}" updateurl="{{route('settings.user.update')}}"></profile-component>
                         </div>
                         <div class="tab-pane fade" id="v-pills-users" role="tabpanel" aria-labelledby="v-pills-users-tab">
-                            <h1>Пользователи</h1>
-                            <table class="table">
-                                <thead>
-                                <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Логин</th>
-                                    <th scope="col">Имя</th>
-                                    <th scope="col">Пароль</th>
-                                    <th scope="col">Активен</th>
-                                    <th scope="col">Последнее обновление</th>
-                                    <th scope="col">Дата добавления</th>
-                                    <th scope="col">Действия</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <th scope="row">1</th>
-                                    <td>kseniaem</td>
-                                    <td>
-                                        <div class="input-group">
-                                            <input type="text" aria-label="Имя" class="form-control" value="Ксения Емельянова">
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="input-group">
-                                            <input type="password" aria-label="Password" class="form-control" placeholder="Введите для изменения">
-                                        </div>
-                                    </td>
-                                    <td class="text-center align-items-center">
-                                        <!-- <div class="input-group"> -->
-                                        <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                                        <!-- </div> -->
-                                    </td>
-                                    <td>26.08.2017 00:36:18</td>
-                                    <td>26.08.2017 00:36:18</td>
-                                    <td><i class="fa fa-lg fa-save"></i><i class="fa fa-lg fa-trash ml-2"></i></td>
-                                </tr>
-                                </tbody>
-                            </table>
-                            <h2>Добавить пользователя</h2>
-                            <register-user-component saveurl="{{ route('register') }}"></register-user-component>
+                            <register-user-component saveurl="{{ route('register') }}" :users="{{$users}}" :roles="{{$roles}}" updateurl="{{route('settings.user.updateById')}}"></register-user-component>
                         </div>
                         <div class="tab-pane fade" id="v-pills-currencies" role="tabpanel" aria-labelledby="v-pills-currencies-tab">
                             <h1>Настройка валют</h1>

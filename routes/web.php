@@ -14,6 +14,7 @@
 Route::get('/', 'HomeController@index')->name('home')->middleware('auth');
 Route::get('/settings', 'SettingsController@index')->name('settings.index')->middleware('auth');
 Route::put('/settings/user/edit', 'UserController@update')->name('settings.user.update')->middleware('auth');
+Route::put('/settings/user/update', 'UserController@updateUser')->name('settings.user.updateById')->middleware('auth');
 
 Auth::routes();
 
