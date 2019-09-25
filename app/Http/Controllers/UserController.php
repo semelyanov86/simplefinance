@@ -66,4 +66,13 @@ class UserController extends Controller
             abort(401, 'You are not authorized to do this action');
         }
     }
+
+    public function destroy($id)
+    {
+        $user = User::findOrFail($id);
+        $user->delete();
+        return response()->json([
+            'message' => 'User profile has been deleted',
+        ]);
+    }
 }

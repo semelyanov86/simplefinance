@@ -43,7 +43,7 @@
                     <input type="email" class="form-control" v-model="user.email">
                 </div>
             </td>
-            <td><a href="#" v-on:click="updateUser(index)"><i class="fa fa-lg fa-save"></i></a><i class="fa fa-lg fa-trash ml-2"></i></td>
+            <td><a href="#" v-on:click="updateUser(index)"><i class="fa fa-lg fa-save"></i></a><a href="#" v-on:click="deleteUser(index)"><i class="fa fa-lg fa-trash ml-2"></i></a></td>
         </tr>
         </tbody>
     </table>
@@ -212,6 +212,28 @@
                     .then(({data}) => {
                         this.$toast.success(data.message, "Success", { timeout: 3000 });
                     });
+
+            },
+            deleteUser(index) {
+              let currentUser = this.allUsers[index];
+              var thisInstance = this;
+                this.$confirm({
+                    title: 'Deleting account',
+                    content: 'Are you sure you want to delete account? This action cannot be undone.'
+                })
+                    .then(success => {
+                        axios.delete('/settings/user/delete/' + currentUser.id)
+                            .catch(({response}) => {
+                                thisInstance.$toast.error(response.data.message, "Error", { timeout: 3000 });
+                            })
+                            .then(({data}) => {
+                                thisInstance.$toast.success(data.message, "Success", { timeout: 3000 });
+                                thisInstance.allUsers.splice(index, 1);
+                            });
+                    })
+                    .catch(cancel => {
+
+                    })
 
             }
         },

@@ -20,7 +20,8 @@ import 'popper.js/dist/popper.js';
 import VueToast from 'vue-toast-notification';
 import 'vue-toast-notification/dist/index.css';
 import BootstrapVue from 'bootstrap-vue';
-
+import vbMsgBox from 'bootstrap-vue-msgbox';
+Vue.use(vbMsgBox);
 
 Vue.use(VueToast);
 Vue.use(BootstrapVue);

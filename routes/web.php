@@ -15,6 +15,7 @@ Route::get('/', 'HomeController@index')->name('home')->middleware('auth');
 Route::get('/settings', 'SettingsController@index')->name('settings.index')->middleware('auth');
 Route::put('/settings/user/edit', 'UserController@update')->name('settings.user.update')->middleware('auth');
 Route::put('/settings/user/update', 'UserController@updateUser')->name('settings.user.updateById')->middleware('auth');
+Route::delete('/settings/user/delete/{id}', 'UserController@destroy')->name('settings.user.delete')->middleware('auth');
 
 Auth::routes();
 
