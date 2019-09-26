@@ -23,22 +23,7 @@
                             <register-user-component saveurl="{{ route('register') }}" :users="{{$users}}" :roles="{{$roles}}" updateurl="{{route('settings.user.updateById')}}"></register-user-component>
                         </div>
                         <div class="tab-pane fade" id="v-pills-currencies" role="tabpanel" aria-labelledby="v-pills-currencies-tab">
-                            <h1>Настройка валют</h1>
-                            <div class="form-group">
-                                <label for="selectCurrencies">Выберите валюты из списка</label>
-                                <select id="selectCurrencies" class="form-control select2" name="currencies[]" multiple="multiple" style="width: 100%;">
-                                    <option value="RUB">Рубль</option>
-                                    <option value="USD">Доллар США</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="selectCurrencies">Валюта по умолчанию</label>
-                                <select id="defaultCurrency" class="form-control select2" name="defaultCurrency" style="width: 100%;">
-                                    <option value="RUB">Рубль</option>
-                                    <option value="USD">Доллар США</option>
-                                </select>
-                            </div>
-                            <button class="btn btn-primary">Сохранить</button>
+                            <currencies-component :currencies="{{$currencies}}" updateurl="{{ route('settings.currency.update') }}"></currencies-component>
                         </div>
                         <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
                             <h1>Настройки для запланированных операций</h1>

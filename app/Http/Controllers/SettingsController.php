@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use App\Currency;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Role;
@@ -30,8 +31,9 @@ class SettingsController extends Controller
             });
 //            dd($users);
             $roles = Role::all();
+            $currencies = Currency::all();
             if ($user) {
-                return view('settings.index', compact('users', 'roles'))->withUser($user);
+                return view('settings.index', compact('users', 'roles', 'currencies'))->withUser($user);
             } else {
                 return redirect()->back();
             }

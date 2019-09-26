@@ -21,6 +21,7 @@ import VueToast from 'vue-toast-notification';
 import 'vue-toast-notification/dist/index.css';
 import BootstrapVue from 'bootstrap-vue';
 import vbMsgBox from 'bootstrap-vue-msgbox';
+import vSelect from 'vue-select';
 Vue.use(vbMsgBox);
 
 Vue.use(VueToast);
@@ -36,9 +37,11 @@ Vue.use(BootstrapVue);
 
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
+Vue.component('v-select', vSelect);
 
 Vue.component('profile-component', require('./components/ProfileComponent.vue').default);
 Vue.component('register-user-component', require('./components/RegisterUserComponent.vue').default);
+Vue.component('currencies-component', require('./components/CurrenciesComponent.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
