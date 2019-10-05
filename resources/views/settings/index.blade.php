@@ -7,10 +7,16 @@
                 <div class="col-3">
                     <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                         <a class="nav-link active" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="true">Профиль</a>
+                        @can('manage users')
                         <a class="nav-link" id="v-pills-users-tab" data-toggle="pill" href="#v-pills-users" role="tab" aria-controls="v-pills-users" aria-selected="false">Пользователи</a>
+                        @endcan
+                        @can('manage currencies')
                         <a class="nav-link" id="v-pills-currencies-tab" data-toggle="pill" href="#v-pills-currencies" role="tab" aria-controls="v-pills-currencies" aria-selected="false">Настройка валют</a>
+                        @endcan
                         <a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">Уведомления</a>
+                        @can('manage categories')
                         <a class="nav-link" id="v-pills-categories-tab" data-toggle="pill" href="#v-pills-categories" role="tab" aria-controls="v-pills-categories" aria-selected="false">Категории</a>
+                        @endcan
                         <a class="nav-link" id="v-pills-trash-tab" data-toggle="pill" href="#v-pills-trash" role="tab" aria-controls="v-pills-trash" aria-selected="false">Корзина</a>
                     </div>
                 </div>
@@ -19,12 +25,16 @@
                         <div class="tab-pane fade show active" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
                             <profile-component :user="{{$user}}" updateurl="{{route('settings.user.update')}}"></profile-component>
                         </div>
+                        @can('manage users')
                         <div class="tab-pane fade" id="v-pills-users" role="tabpanel" aria-labelledby="v-pills-users-tab">
                             <register-user-component saveurl="{{ route('register') }}" :users="{{$users}}" :roles="{{$roles}}" updateurl="{{route('settings.user.updateById')}}"></register-user-component>
                         </div>
+                        @endcan
+                        @can('manage currencies')
                         <div class="tab-pane fade" id="v-pills-currencies" role="tabpanel" aria-labelledby="v-pills-currencies-tab">
                             <currencies-component :currencies="{{$currencies}}" updateurl="{{ route('settings.currency.update') }}"></currencies-component>
                         </div>
+                        @endcan
                         <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
                             <h1>Настройки для запланированных операций</h1>
                             <div class="form-group">
@@ -107,137 +117,7 @@
                             </div>
                         </div>
                         <div class="tab-pane fade" id="v-pills-categories" role="tabpanel" aria-labelledby="v-pills-categories-tab">
-                            <h1>Категории</h1>
-                            <div class="row mt-2">
-                                <div class="col-4">
-                                    <a class="btn btn-primary" data-toggle="collapse" href="#addCategory" role="button" aria-expanded="false" aria-controls="addCategory">
-                                        Добавить категорию
-                                    </a>
-                                </div>
-                                <div class="col-4">
-                                    <button class="btn btn-danger">Восстановить</button>
-                                </div>
-                                <div class="col-4 form-check">
-                                    <input type="checkbox" name="hidden-categories" class="form-check-input" id="hidden-categories">
-                                    <label for="hidden-categories" class="form-check-label">Показать скрытые</label>
-                                </div>
-                            </div>
-                            <div class="collapse" id="addCategory">
-                                <div class="card card-body">
-                                    <h5 class="card-title">Добавление новой категории</h5>
-                                    <form>
-                                        <div class="form-group">
-                                            <label for="categoryName">Название категории</label>
-                                            <input type="text" class="form-control" id="categoryName">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="categoryType">Тип категории</label>
-                                            <select class="form-control" id="categoryType">
-                                                <option>Доходная</option>
-                                                <option>Расходная</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="subCategory">Подкатегория для</label>
-                                            <select class="form-control select2" id="subCategory">
-                                                <option>Автомобиль</option>
-                                                <option>Дети</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="sysCategory">Системная категория</label>
-                                            <select class="form-control select2" id="sysCategory">
-                                                <option>Автомобиль</option>
-                                                <option>Дети</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="" id="isHiddenCategory">
-                                            <label class="form-check-label" for="isHiddenCategory">
-                                                Скрытая категория
-                                            </label>
-                                        </div>
-                                        <div class="btn-group mt-2" role="group">
-                                            <button type="button" class="btn btn-danger">Отменить</button>
-                                            <button type="button" class="btn btn-success ml-2">Сохранить</button>
-                                        </div>
-                                    </form>
-
-                                </div>
-                            </div>
-
-                            <table id="table" data-toggle="table"
-                                   data-search="true" data-filter-control="true" data-filter-show-clear="true" data-toggle="table" data-group-by="true"  data-group-by-field="syscategory">
-                                <thead>
-                                <tr>
-                                    <th data-field="category">Наименование категории</th>
-                                    <th data-field="type" data-filter-control="select">Тип</th>
-                                    <th data-field="syscategory">Системная категория</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <td>Стоянка</td>
-                                    <td>-</td>
-                                    <td>Автомобиль</td>
-                                </tr>
-                                <tr>
-                                    <td>Аренда автомобиля</td>
-                                    <td>-</td>
-                                    <td>Автомобиль</td>
-                                </tr>
-                                <tr>
-                                    <td>Мойка автомобиля</td>
-                                    <td>-</td>
-                                    <td>Автомобиль</td>
-                                </tr>
-                                <tr>
-                                    <td>Платные дороги, штрафы</td>
-                                    <td>-</td>
-                                    <td>Автомобиль</td>
-                                </tr>
-                                <tr>
-                                    <td>Оплата прочих комиссий</td>
-                                    <td>-</td>
-                                    <td>Банковское обслуживание</td>
-                                </tr>
-                                <tr>
-                                    <td>Комиссия банкомата</td>
-                                    <td>-</td>
-                                    <td>Банковское обслуживание</td>
-                                </tr>
-                                <tr>
-                                    <td>Услуги банка</td>
-                                    <td>-</td>
-                                    <td>Банковское обслуживание</td>
-                                </tr>
-                                <tr>
-                                    <td>Ковыряние в носу</td>
-                                    <td>-</td>
-                                    <td>Вредные привычки</td>
-                                </tr>
-                                <tr>
-                                    <td>Алкоголь, табачные изделия</td>
-                                    <td>-</td>
-                                    <td>Вредные привычки</td>
-                                </tr>
-                                <tr>
-                                    <td>Игрушки</td>
-                                    <td>-</td>
-                                    <td>Дети</td>
-                                </tr>
-                                <tr>
-                                    <td>Детская одежда и обувь</td>
-                                    <td>-</td>
-                                    <td>Дети</td>
-                                </tr>
-                                <tr>
-                                    <td>Детские врачи</td>
-                                    <td>-</td>
-                                    <td>Дети</td>
-                                </tr>
-                                </tbody>
-                            </table>
+                            <categories-component :syscategories="{{$syscategories}}" :categories="{{$categories}}" createurl="{{route('settings.category.create')}}"></categories-component>
                         </div>
                         <div class="tab-pane fade" id="v-pills-trash" role="tabpanel" aria-labelledby="v-pills-trash-tab">
                             <h1>Корзина</h1>

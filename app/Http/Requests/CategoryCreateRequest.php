@@ -4,8 +4,9 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
-class CurrencyUpdateRequest extends FormRequest
+class CategoryCreateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -14,7 +15,7 @@ class CurrencyUpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        if (Auth::user() && Auth::user()->hasPermissionTo('manage currencies')) {
+        if (Auth::user() && Auth::user()->hasPermissionTo('manage categories')) {
             return true;
         } else {
             return false;
@@ -29,8 +30,11 @@ class CurrencyUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'active' => 'required|array',
-            'defaultCurrency' => 'required|array'
+            'category_name' => 'required|unique:categories|max:190',
+            'sys_category_id' => 'required|integer',
+            'parent_id' => 'nullable|integer',
+            'category_type' => ['required', Rule::in(['-1', '1'])],
+            'isHidden' => ['nullable', Rule::in(['0', '1'])],
         ];
     }
 }

@@ -69,10 +69,15 @@ class UserController extends Controller
 
     public function destroy($id)
     {
-        $user = User::findOrFail($id);
-        $user->delete();
-        return response()->json([
-            'message' => 'User profile has been deleted',
-        ]);
+        if (Auth::user() && Auth::user()->hasPermissionTo('manage users')) {
+            $user = User::findOrFail($id);
+            $user->delete();
+            return response()->json([
+                'message' => 'User profile has been deleted',
+            ]);
+        } else {
+            abort(403, 'You are not authorized to do this action');
+        }
+
     }
 }

@@ -22,6 +22,12 @@ import 'vue-toast-notification/dist/index.css';
 import BootstrapVue from 'bootstrap-vue';
 import vbMsgBox from 'bootstrap-vue-msgbox';
 import vSelect from 'vue-select';
+// import VueGoodTablePlugin from 'vue-good-table';
+
+// import the styles
+// import 'vue-good-table/dist/vue-good-table.css'
+
+// Vue.use(VueGoodTablePlugin);
 Vue.use(vbMsgBox);
 
 Vue.use(VueToast);
@@ -42,6 +48,7 @@ Vue.component('v-select', vSelect);
 Vue.component('profile-component', require('./components/ProfileComponent.vue').default);
 Vue.component('register-user-component', require('./components/RegisterUserComponent.vue').default);
 Vue.component('currencies-component', require('./components/CurrenciesComponent.vue').default);
+Vue.component('categories-component', require('./components/CategoriesComponent.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

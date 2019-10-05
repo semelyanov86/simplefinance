@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Category;
+use App\Syscategory;
 use App\User;
 use App\Currency;
 use Illuminate\Http\Request;
@@ -32,8 +34,16 @@ class SettingsController extends Controller
 //            dd($users);
             $roles = Role::all();
             $currencies = Currency::all();
+            $syscategories = Syscategory::all();
+            $categories = Category::all()->each(function ($item){
+                if (!$item->parent_id) {
+                    $item->_showDetails = true;
+                } else {
+                    $item->isCollapsed = false;
+                }
+            });
             if ($user) {
-                return view('settings.index', compact('users', 'roles', 'currencies'))->withUser($user);
+                return view('settings.index', compact('users', 'roles', 'currencies', 'syscategories', 'categories'))->withUser($user);
             } else {
                 return redirect()->back();
             }

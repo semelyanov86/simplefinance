@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -65,17 +66,22 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        $user = User::create([
-            'login' => $data['login'],
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'is_active' => '1',
-            'password' => Hash::make($data['password']),
-        ]);
-        $user->assignRole($data['role']);
-        $roles = $user->roles;
-        $user->role = $roles->first();
-        return $user;
+        if (Auth::user() && Auth::user()->hasPermissionTo('manage users')) {
+            $user = User::create([
+                'login' => $data['login'],
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'is_active' => '1',
+                'password' => Hash::make($data['password']),
+            ]);
+            $user->assignRole($data['role']);
+            $roles = $user->roles;
+            $user->role = $roles->first();
+            return $user;
+        } else {
+            abort('403', 'You are not authorized to manage users');
+        }
+
     }
 
     /**

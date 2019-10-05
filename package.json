@@ -28,6 +28,7 @@
   "dependencies": {
     "popper.js": "^1.15.0",
     "select2": "^4.0.10",
+    "vue-good-table": "^2.18.0",
     "vue-toast-notification": "0.0.3"
   }
 }
