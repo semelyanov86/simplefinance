@@ -36,85 +36,99 @@
                         </div>
                         @endcan
                         <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
+                            @if ($errors->any())
+                                <div class="alert alert-danger">
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
                             <h1>Настройки для запланированных операций</h1>
+                            <form action="{{route('settings.notify.update')}}" method="post">
+                                @csrf
                             <div class="form-group">
                                 <label for="timezone">Часовой пояс</label>
-                                <select id="timezone" class="form-control select2" name="timezone" style="width: 100%;">
-                                    <option value="America/Anchorage">(01:48) Аляска</option><option value="America/Los_Angeles">(02:48) Тихоокеанское время (США &amp; Канада)</option><option value="America/Phoenix">(02:48) Аризона</option><option value="America/Managua">(03:48) Центральноамериканское время</option><option value="America/Regina">(03:48) Саскачеван</option><option value="America/Denver">(03:48) Горное время (США &amp; Канада)</option><option value="America/Chihuahua">(03:48) Ла Паз, Мазатлан, Чихуахуа</option><option value="America/Bogota">(04:48) Богота, Лима, Кито</option><option value="America/Mexico_City">(04:48) Гвадалахара, Мехико, Монтеррей</option><option value="America/Chicago">(04:48) Центральное время (США &amp; Канада)</option><option value="America/Caracas">(05:48) Каракас, Асунсьон</option><option value="America/New_York">(05:48) Восточное время (США &amp; Канада)</option><option value="America/Indianapolis">(05:48) Индиана (Восток)</option><option value="America/Santiago">(05:48) Сантьяго</option><option value="America/Sao_Paulo">(06:48) Бразилиа</option><option value="America/Buenos_Aires">(06:48) Буэнос Айрос, Джоржтаун</option><option value="America/Halifax">(06:48) Атлантическое время (Канада)</option><option value="America/St_Johns">(07:18) Ньюфаундленд</option><option value="America/Godthab">(07:48) Гренландия</option><option value="America/Noronha">(07:48) Среднеатлантическое время</option><option value="Atlantic/Cape_Verde">(08:48) Кабо-Верде</option><option value="Atlantic/Azores">(09:48) Азорские острова</option><option value="Africa/Casablanca">(09:48) Касабланка, Монровия</option><option value="Europe/London">(10:48) Дублин, Эдинбург, Лиссабон, Лондон</option><option value="Africa/Lagos">(10:48) Западное центральноафриканское время</option><option value="Europe/Sarajevo">(11:48) Сараево, Скопье, Варашава, Загреб</option><option value="Europe/Belgrade">(11:48) Белград, Братислава, Будапешт, Варшава, Любляна, Прага</option><option value="Africa/Johannesburg">(11:48) Хараре, Претория</option><option value="Europe/Paris">(11:48) Брюссель, Копенгаген, Мадрид, Париж</option><option value="Europe/Berlin">(11:48) Амстердам, Берлин, Берн, Рим, Стокгольм, Вена</option><option value="Africa/Cairo">(11:48) Каир</option><option value="Africa/Nairobi">(12:48) Найроби</option><option value="Asia/Riyadh">(12:48) Кувейт, Эр-Рияд</option><option value="Europe/Moscow">(12:48) Москва, Санкт-Петербург, Волгоград</option><option value="Asia/Baghdad">(12:48) Багдад</option><option value="Europe/Bucharest">(12:48) Будапешт</option><option value="Asia/Jerusalem">(12:48) Иерусалим</option><option value="Europe/Istanbul">(12:48) Афины, Стамбул, Минск</option><option value="Europe/Helsinki">(12:48) Хельсинки, Киев, Рига, София, Таллин, Вильнюс</option><option value="Asia/Tbilisi">(13:48) Баку, Тбилиси, Ереван</option><option value="Asia/Muscat">(13:48) Абу Даби, Мускат</option><option value="Asia/Kabul">(14:18) Кабул</option><option value="Asia/Tehran">(14:18) Тегеран</option><option value="Asia/Yekaterinburg">(14:48) Екатеринбург</option><option value="Asia/Karachi">(14:48) Исламабад, Карачи, Ташкент</option><option value="Asia/Colombo">(15:18) Шри Джаяварденепура</option><option value="Asia/Calcutta">(15:18) Калькутта, Мумбай, Нью Дели, Ченнай</option><option value="Asia/Katmandu">(15:33) Катманду</option><option value="Asia/Dhaka">(15:48) Астана, Дакка</option><option value="Asia/Rangoon">(16:18) Рангун</option><option value="Asia/Novosibirsk">(16:48) Алмата, Новосибирск</option><option value="Asia/Bangkok">(16:48) Банкок, Ханой, Джакарта</option><option value="Asia/Krasnoyarsk">(16:48) Красноярск</option><option value="Asia/Singapore">(17:48) Куала Лумпур, Сингапур</option><option value="Asia/Hong_Kong">(17:48) Гонк Конг, Пекин, Чунцин, Урумчи</option><option value="Asia/Taipei">(17:48) Тайпей</option><option value="Australia/Perth">(17:48) Перт</option><option value="Asia/Irkutsk">(17:48) Иркутск, Улан Батор</option><option value="Asia/Seoul">(18:48) Сеул</option><option value="Asia/Tokyo">(18:48) Осака, Саппоро, Токио</option><option value="Asia/Yakutsk">(18:48) Якутск</option><option value="Australia/Adelaide">(19:18) Аделаида</option><option value="Australia/Darwin">(19:18) Дарвин</option><option value="Australia/Hobart">(19:48) Хобарт</option><option value="Australia/Sydney">(19:48) Канбера, Мальбурн, Сидней</option><option value="Asia/Vladivostok">(19:48) Владивосток</option><option value="Australia/Brisbane">(19:48) Брисбей</option><option value="Pacific/Guam">(19:48) Гуам, Порт Моресби</option><option value="Asia/Magadan">(20:48) Магадан, Сахалин, Соломоновы острова, Новая Каледония</option><option value="Pacific/Fiji">(21:48) Камчатка, Маршалловы острова, Фиджи</option><option value="Pacific/Auckland">(21:48) Окленд, Веллингтон</option><option value="Pacific/Kwajalein">(21:48) Энивоток, Кваджалейн</option><option value="Pacific/Apia">(22:48) Остров Мидуэй, Самоа</option><option value="Pacific/Tongatapu">(22:48) Нуку-алофа</option><option value="Pacific/Honolulu">(23:48) Гаваи</option>
-                                </select>
+                                {!! $timezone_select !!}
                                 <div class="form-group">
                                     <label for="phoneNumber">Номер телефона</label>
-                                    <input type="phone" class="form-control" id="phoneNumber">
+                                    <input type="phone" class="form-control" id="phoneNumber" name="phone" value="{{old('phone', $user->phone)}}">
                                 </div>
                                 <h2>Настройки по умолчанию</h2>
                                 <div class="row">
                                     <div class="col">
                                         <div class="form-group form-check">
-                                            <input type="checkbox" class="form-check-input" id="byEmail">
+                                            <input type="checkbox" class="form-check-input" id="byEmail" name="byEmail" @if($user->notify_way == 'email' || $user->notify_way == 'all') checked @endif>
                                             <label class="form-check-label" for="byEmail">По email</label>
                                         </div>
                                         <div class="form-group">
                                             <label for="emailOften">Частота</label>
-                                            <select id="emailOften" class="form-control select2" name="defaultCurrency" style="width: 100%;">
-                                                <option value="0">В тот же день</option>
-                                                <option value="1">За 1 день</option>
-                                                <option value="2">За 2 дня</option>
-                                                <option value="3">За 3 дня</option>
-                                                <option value="7">За неделю</option>
-                                                <option value="31">За месяц</option>
+                                            <select id="emailOften" class="form-control select2" name="emailFrequency" style="width: 100%;">
+                                                <option value="0" @if($user->notify_frequency == "0") selected @endif>В тот же день</option>
+                                                <option value="1" @if($user->notify_frequency == "1") selected @endif>За 1 день</option>
+                                                <option value="2" @if($user->notify_frequency == "2") selected @endif>За 2 дня</option>
+                                                <option value="3" @if($user->notify_frequency == "3") selected @endif>За 3 дня</option>
+                                                <option value="7" @if($user->notify_frequency == "7") selected @endif>За неделю</option>
+                                                <option value="31" @if($user->notify_frequency == "31") selected @endif>За месяц</option>
                                             </select>
                                         </div>
                                         <div class="form-group">
                                             <label for="emailHours">Часы</label>
                                             <select id="emailHours" class="form-control select2" name="emailHours" style="width: 100%;">
-                                                <option value="0">00</option><option value="1">01</option><option value="2">02</option><option value="3">03</option><option value="4">04</option><option value="5">05</option><option value="6">06</option><option value="7">07</option><option value="8">08</option><option value="9">09</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option>
+                                                @for ($i = 0; $i < 23; $i++)
+                                                    <option value="{{$i}}"  @if($user->notify_hours == $i) selected @endif>{{$i}}</option>
+                                                @endfor
                                             </select>
                                         </div>
                                         <div class="form-group">
                                             <label for="emailMinutes">Минуты</label>
                                             <select id="emailMinutes" class="form-control select2" name="emailMinutes" style="width: 100%;">
-                                                <option value="0">00</option>
-                                                <option value="15">15</option>
-                                                <option value="30">30</option>
-                                                <option value="45">45</option>
+                                                <option value="0" @if($user->notify_minutes == '0') selected @endif>00</option>
+                                                <option value="15" @if($user->notify_minutes == '15') selected @endif>15</option>
+                                                <option value="30" @if($user->notify_minutes == '30') selected @endif>30</option>
+                                                <option value="45" @if($user->notify_minutes == '45') selected @endif>45</option>
                                             </select>
                                         </div>
                                     </div>
                                     <div class="col">
                                         <div class="form-group form-check">
-                                            <input type="checkbox" class="form-check-input" id="bySMS">
+                                            <input type="checkbox" class="form-check-input" id="bySMS" name="bySms" @if($user->notify_way == 'sms' || $user->notify_way == 'all') checked @endif>
                                             <label class="form-check-label" for="bySMS">По sms</label>
                                         </div>
                                         <div class="form-group">
                                             <label for="smsOften">Частота</label>
-                                            <select id="smsOften" class="form-control select2" name="defaultCurrency" style="width: 100%;">
-                                                <option value="0">В тот же день</option>
-                                                <option value="1">За 1 день</option>
-                                                <option value="2">За 2 дня</option>
-                                                <option value="3">За 3 дня</option>
-                                                <option value="7">За неделю</option>
-                                                <option value="31">За месяц</option>
+                                            <select id="smsOften" class="form-control select2" name="smsFrequency" style="width: 100%;">
+                                                <option value="0" @if($user->notify_frequency_sms == "0") selected @endif>В тот же день</option>
+                                                <option value="1" @if($user->notify_frequency_sms == "1") selected @endif>За 1 день</option>
+                                                <option value="2" @if($user->notify_frequency_sms == "2") selected @endif>За 2 дня</option>
+                                                <option value="3" @if($user->notify_frequency_sms == "3") selected @endif>За 3 дня</option>
+                                                <option value="7" @if($user->notify_frequency_sms == "7") selected @endif>За неделю</option>
+                                                <option value="31" @if($user->notify_frequency_sms == "31") selected @endif>За месяц</option>
                                             </select>
                                         </div>
                                         <div class="form-group">
                                             <label for="smsHours">Часы</label>
                                             <select id="smsHours" class="form-control select2" name="smsHours" style="width: 100%;">
-                                                <option value="0">00</option><option value="1">01</option><option value="2">02</option><option value="3">03</option><option value="4">04</option><option value="5">05</option><option value="6">06</option><option value="7">07</option><option value="8">08</option><option value="9">09</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option>
+                                                @for ($i = 0; $i < 23; $i++)
+                                                    <option value="{{$i}}"  @if($user->notify_hours_sms == $i) selected @endif>{{$i}}</option>
+                                                @endfor
                                             </select>
                                         </div>
                                         <div class="form-group">
                                             <label for="smsMinutes">Минуты</label>
                                             <select id="smsMinutes" class="form-control select2" name="smsMinutes" style="width: 100%;">
-                                                <option value="0">00</option>
-                                                <option value="15">15</option>
-                                                <option value="30">30</option>
-                                                <option value="45">45</option>
+                                                <option value="0" @if($user->notify_minutes_sms == '0') selected @endif>00</option>
+                                                <option value="15" @if($user->notify_minutes_sms == '15') selected @endif>15</option>
+                                                <option value="30" @if($user->notify_minutes_sms == '30') selected @endif>30</option>
+                                                <option value="45" @if($user->notify_minutes_sms == '45') selected @endif>45</option>
                                             </select>
                                         </div>
                                     </div>
                                 </div>
-                                <button type="submit" class="btn btn-primary">Submit</button>
+                                <button type="submit" class="btn btn-primary">Обновить уведомления</button>
                             </div>
+                            </form>
                         </div>
                         <div class="tab-pane fade" id="v-pills-categories" role="tabpanel" aria-labelledby="v-pills-categories-tab">
                             <categories-component :syscategories="{{$syscategories}}" :categories="{{$categories}}" createurl="{{route('settings.category.create')}}"></categories-component>

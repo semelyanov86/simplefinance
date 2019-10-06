@@ -6,6 +6,7 @@ use App\Category;
 use App\Syscategory;
 use App\User;
 use App\Currency;
+use Camroncade\Timezone\Timezone;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Role;
@@ -42,8 +43,13 @@ class SettingsController extends Controller
                     $item->isCollapsed = false;
                 }
             });
+            $timezone_select = \Camroncade\Timezone\Facades\Timezone::selectForm(
+                $user->timezone,
+                '',
+                ['class' => 'form-control', 'name' => 'timezone']
+            );
             if ($user) {
-                return view('settings.index', compact('users', 'roles', 'currencies', 'syscategories', 'categories'))->withUser($user);
+                return view('settings.index', compact('users', 'roles', 'currencies', 'syscategories', 'categories', 'timezone_select'))->withUser($user);
             } else {
                 return redirect()->back();
             }

@@ -17,7 +17,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'operations', 'day_start', 'receive_notify', 'login', 'is_active'
+        'name', 'email', 'password', 'operations', 'day_start', 'receive_notify', 'login', 'is_active', 'notify_way', 'notify_frequency', 'notify_hours', 'notify_minutes', 'timezone', 'phone', 'notify_frequency_sms', 'notify_hours_sms', 'notify_minutes_sms'
     ];
 
     /**

@@ -19,6 +19,7 @@ Route::delete('/settings/user/delete/{id}', 'UserController@destroy')->name('set
 Route::post('/settings/currency/update', 'CurrencyController@update')->name('settings.currency.update')->middleware('auth');
 Route::post('/settings/categories/create', 'CategoryController@create')->name('settings.category.create')->middleware('auth');
 Route::delete('/settings/categories/delete/{id}', 'CategoryController@destroy')->name('settings.category.delete')->middleware('auth');
+Route::post('/settings/notify/update', 'UserController@updateNotify')->name('settings.notify.update')->middleware('auth');
 
 Auth::routes();
 

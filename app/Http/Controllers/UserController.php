@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UpdateNotifyRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\User;
@@ -79,5 +80,34 @@ class UserController extends Controller
             abort(403, 'You are not authorized to do this action');
         }
 
+    }
+
+    public function updateNotify(UpdateNotifyRequest $request)
+    {
+        $user = User::find(Auth::user()->id);
+        if ($user) {
+            $user->phone = $request->phone;
+            $user->timezone = $request->timezone;
+            if ($request->byEmail == 'on') {
+                $user->notify_way = 'sms';
+                $user->notify_frequency = $request->emailFrequency;
+                $user->notify_hours = $request->emailHours;
+                $user->notify_minutes = $request->emailMinutes;
+            }
+            if ($request->bySms == 'on') {
+                $user->notify_way = 'email';
+                $user->notify_frequency_sms = $request->smsFrequency;
+                $user->notify_hours_sms = $request->smsHours;
+                $user->notify_minutes_sms = $request->smsMinutes;
+            }
+            if ($request->bySms == 'on' && $request->byEmail == 'on') {
+                $user->notify_way = 'all';
+            }
+            $user->save();
+            return redirect()->route('settings.index', $user)->with('success', 'Your profile has been updated');
+
+        } else {
+            abort(401, 'You are not authorized to do this action');
+        }
     }
 }
