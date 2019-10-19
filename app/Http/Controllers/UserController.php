@@ -32,11 +32,9 @@ class UserController extends Controller
                 ]);
             }
             return redirect()->route('settings.index', $user)->with('success', 'Your profile has been updated');
-
         } else {
             abort(401, 'You are not authorized to do this action');
         }
-
     }
 
     public function updateUser(UpdateUserRequest $request)
@@ -62,13 +60,12 @@ class UserController extends Controller
                 ]);
             }
             return redirect()->route('settings.index', $user)->with('success', 'Your profile has been updated');
-
         } else {
             abort(401, 'You are not authorized to do this action');
         }
     }
 
-    public function destroy($id)
+    public function destroy(string $id)
     {
         if (Auth::user() && Auth::user()->hasPermissionTo('manage users')) {
             $user = User::findOrFail($id);
@@ -79,7 +76,6 @@ class UserController extends Controller
         } else {
             abort(403, 'You are not authorized to do this action');
         }
-
     }
 
     public function updateNotify(UpdateNotifyRequest $request)
@@ -105,7 +101,6 @@ class UserController extends Controller
             }
             $user->save();
             return redirect()->route('settings.index', $user)->with('success', 'Your profile has been updated');
-
         } else {
             abort(401, 'You are not authorized to do this action');
         }

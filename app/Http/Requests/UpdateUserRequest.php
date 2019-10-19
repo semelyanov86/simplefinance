@@ -14,7 +14,7 @@ class UpdateUserRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize() : bool
     {
         if (Auth::user() && Auth::user()->hasPermissionTo('manage users')) {
             return true;

@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CategoryCreateRequest;
-use App\User;
-use Illuminate\Http\Request;
 use App\Category;
 use Illuminate\Support\Facades\Auth;
 
@@ -25,7 +23,7 @@ class CategoryController extends Controller
         return $category;
     }
 
-    public function destroy($id)
+    public function destroy(int $id)
     {
         if (Auth::user() && Auth::user()->hasPermissionTo('manage categories')) {
             $category = Category::findOrFail($id);
