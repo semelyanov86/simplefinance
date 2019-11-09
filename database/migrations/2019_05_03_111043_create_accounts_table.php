@@ -16,14 +16,14 @@ class CreateAccountsTable extends Migration
     {
         Schema::create('accounts', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('account_type');
+            $table->bigInteger('account_type_id')->unsigned();
             $table->enum('acc_state', [0,1,2])->default(0);
             $table->string('name');
             $table->text('description')->nullable();
             $table->float('start_balance');
             $table->string('currency_code')->nullable();
             $table->string('bank_bik')->nullable();
-            $table->float('market_amount');
+            $table->float('market_amount')->nullable();
             $table->bigInteger('user_id')->unsigned();
             $table->softDeletes();
             $table->timestamps();

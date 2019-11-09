@@ -23,7 +23,8 @@
                     <div class="tab-content" id="nav-tabContent">
                         <div class="tab-pane fade show active" id="accounts" role="tabpanel" aria-labelledby="accounts-tab">
                             <div class="text-center my-2">
-                                <a href="#" class="text-success" onclick="$('#addNewAccount').modal();"><i class="fa fa-plus"></i>Добавить счёт</a>
+{{--                                <b-button v-b-modal.addNewAccount variant="link" class="text-success"><i class="fa fa-plus"></i>Добавить счёт</b-button>--}}
+                                <a href="#" class="text-success" v-on:click="addNewAccount = !addNewAccount"><i class="fa fa-plus"></i>Добавить счёт</a>
                             </div>
                             <div class="accordion" id="accordionLeft">
                                 <div class="card">
@@ -34,7 +35,6 @@
                                             </button>
                                         </h2>
                                     </div>
-
                                     <div id="collapseOne" class="collapse show" aria-labelledby="favourites" data-parent="#accordionLeft">
                                         <div class="card-body">
                                             <div class="row accountrow" data-toggle="tooltip" data-html="true" title="<p>Название: Авангард</p>
@@ -665,8 +665,18 @@
                 </div>
             </div>
         </div>
-
+        <!-- Add Account -->
     </div>
+    <add-new-account-component
+                                :addnewaccount="addNewAccount"
+                                v-on:changemodal="changeModal($event)"
+                               :accounttypes="{{$accountTypes}}"
+                               :currencies="{{$currencies}}"
+                                :cards="{{$cardTypes}}"
+                                :monthes="{{$monthes}}"
+                                :years="{{$years}}"
+                                createurl="{{route('account.store')}}"
+    ></add-new-account-component>
     </div>
     <!-- Modal -->
     <div id="addOperation" class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -858,65 +868,7 @@
             </div>
         </div>
     </div>
-    <!-- Add Account -->
-    <div id="addNewAccount" class="modal fade" tabindex="-1" role="dialog">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="addNewAccountTitle">Добавить счёт</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form>
-                        <div class="form-group">
-                            <label for="accountType">Тип счёта</label>
-                            <select class="form-control select2" id="accoutType">
-                                <option value="cash">Наличные</option>
-                                <option value="debitCard">Дебетовая карта</option>
-                            </select>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="regularAcc" value="regularAcc">
-                            <label class="form-check-label" for="regularAcc">Обычный</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="favouriteAcc" id="favouriteAcc" value="favouriteAcc">
-                            <label class="form-check-label" for="favouriteAcc">Избранный</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="hiddenAcc" id="hiddenAcc" value="hiddenAcc">
-                            <label class="form-check-label" for="hiddenAcc">Скрытый</label>
-                        </div>
-                        <div class="form-group">
-                            <label for="newAccountName">Название</label>
-                            <input type="text" class="form-control" id="newAccountName">
-                        </div>
-                        <div class="form-group">
-                            <label for="accountNotes">Примечание</label>
-                            <textarea class="form-control" id="accountNotes" rows="3"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label for="startBalance">Начальный баланс</label>
-                            <input type="number" class="form-control" id="startBalance">
-                        </div>
-                        <div class="form-group">
-                            <label for="accountType">Валюта счёта</label>
-                            <select class="form-control select2" id="accoutType">
-                                <option value="RUB">Рубли</option>
-                                <option value="USD">Доллар США</option>
-                            </select>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Отменить</button>
-                    <button type="button" class="btn btn-primary">Сохранить</button>
-                </div>
-            </div>
-        </div>
-    </div>
+
     <!-- New Target Modal -->
     <div class="modal fade" id="newTarget" tabindex="-1" role="dialog" aria-labelledby="newTarget" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">

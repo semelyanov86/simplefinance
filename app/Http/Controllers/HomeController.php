@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\AccountType;
+use App\CardType;
+use App\Currency;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -23,6 +27,12 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $now = Carbon::now();
+        $accountTypes = AccountType::getAllSortableTypes();
+        $currencies = Currency::where('is_active', '1')->get();
+        $cardTypes = CardType::all();
+        $monthes = json_encode(range(1, 12));
+        $years = json_encode(range((int) $now->year, ((int) $now->year) + 20));
+        return view('home', compact('accountTypes', 'currencies', 'cardTypes', 'monthes', 'years'));
     }
 }
